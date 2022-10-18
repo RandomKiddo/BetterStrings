@@ -6,6 +6,8 @@ For more information, visit https://opensource.org/licenses/MIT
 
 #include <stdio.h>
 #include <string>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -90,10 +92,39 @@ class BetterString {
         int length(void) { return length; }
         int size(void) { return length; }
         //Methods
+        BetterString lower(void) {
+            std::string copy = str;
+            std::transform(copy.begin(), copy.end(), copy.begin(), 
+            [](unsigned char c){ return std::tolower(c); });
+            return BetterString(copy);
+        }
+        BetterString upper(void) {
+            std::string copy = str;
+            std::transform(copy.begin(), copy.end(), copy.begin(), 
+            [](unsigned char c){ return std::toupper(c); });
+            return BetterString(copy);
+        }
+        BetterString title(void) {
+            std::string copy = str;
+            for (int i = 0; copy[i] != '\0'; ++i) {
+                if (copy[i] == ' ') {
+                    copy[i+1] = copy[i+1]-32;
+                }
+            }
+            return BetterString(copy);
+        }
         int index(const BetterString& s) {
             return -1; //TODO index
         }
         bool equalsIgnoreCase(const BetterString& s) {
-            return false; //TODO equals ignore case
+            if (s.str.length() != str.length()) { return false; }
+            BetterString one = BetterString(str);
+            BetterString two = BetterString(s.str);
+            one = one.lower();
+            two = two.lower();
+            for (unsigned int i = 0; i < one.str.length(); ++i) {
+                if (one.str[i] != two.str[i]) { return false; }
+            }
+            return true;
         }
 };
