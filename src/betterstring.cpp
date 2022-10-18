@@ -80,13 +80,31 @@ class BetterString {
         }
         BetterString operator-(const BetterString& s) {
             if (index(s.str) == -1) { return BetterString(str); }
-            for (int i = 0; i < str.length(); ++i) { 
-                //TODO continue subtract
+            int in = index(s.str), last = 0;
+            std::string copy = "";
+            while (in != -1) { 
+                for (int i = last; i < in; ++i) {
+                    copy += str[i];
+                }
+                in = index(s.str, in + s.str.length());
+                last = in + s.str.length();
             }
-            return BetterString(); //TODO subtract
+            return BetterString(copy);
         }
         void operator-=(const BetterString& s) { 
-            return; //TODO subtract equals
+            if (index(s.str) == -1) { return; }
+            int in = index(s.str), last = 0;
+            std::string copy = "";
+            while (in != -1) { 
+                for (int i = last; i < in; ++i) {
+                    copy += str[i];
+                }
+                in = index(s.str, in + s.str.length());
+                last = in + s.str.length();
+            }
+            str = copy; 
+            length = str.length();
+            return;
         }
         void operator=(const BetterString& s) {
             str = s.str;
@@ -97,23 +115,44 @@ class BetterString {
         bool operator<=(const BetterString& s) { return str <= s.str; }
         bool operator>=(const BetterString& s) { return str >= s.str; }
         BetterString operator()(unsigned int start, unsigned int stop) {
-            //TODO Splice
-            return BetterString();
+            std::string copy = "";
+            if (start >= length || stop >= length) { return BetterString(); }
+            for (int i = start; i < stop; ++i) {
+                copy += str[i];
+            }
+            return BetterString(copy);
         }
         BetterString operator()(unsigned int start) {
-            //TODO Splice
-            return BetterString();
+            std::string copy = "";
+            if (start >= length) { return BetterString(); }
+            for (int i = start; i < str.length(); ++i) {
+                copy += str[i];
+            }
+            return BetterString(copy);
         }
         BetterString operator()(unsigned int start, unsigned int stop, unsigned int step) {
-            // TODO Splice
-            return BetterString();
+            std::string copy = "";
+            if (start >= length || stop >= length) { return BetterString(); }
+            for (int i = start; i < stop; i += step) {
+                copy += str[i];
+            }
+            return BetterString(copy);
         }
         //Getters
         int length(void) { return length; }
         int size(void) { return length; }
         //Methods
-        BetterString subtractAll(const BetterString& s) {
-            return BetterString(); //TODO subtract all 
+        BetterString subtractFirst(const BetterString& s) {
+            if (index(s.str) == -1) { return BetterString(str); }
+            int in = index(s.str);
+            std::string copy = "";
+            for (int i = 0; i < in; ++i) {
+                copy += str[i];
+            }
+            for (int i = in + s.str.length(); i < str.length(); ++i) {
+                copy += str[i];
+            }
+            return BetterString(copy); 
         }
         BetterString lower(void) {
             std::string copy = str;
@@ -143,6 +182,22 @@ class BetterString {
                 }
             } else {
                 for (int i = 0; i < str.length() - s.length(); ++i) {
+                    std::string connected = "";
+                    for (int j = i; j < s.length(); ++j) {
+                        connected += str[j]; 
+                    }
+                    if (strcmp(connected.c_str(), s.c_str()) == 0) { return i; }
+                }
+            }
+            return -1; 
+        }
+        int index(std::string s, int start) {
+            if (s.length() == 1) {
+                for (int i = start; i < str.length(); ++i) {
+                    if (s[0] == str[i]) { return i; }
+                }
+            } else {
+                for (int i = start; i < str.length() - s.length(); ++i) {
                     std::string connected = "";
                     for (int j = i; j < s.length(); ++j) {
                         connected += str[j]; 
