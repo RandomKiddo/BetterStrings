@@ -8,6 +8,7 @@ For more information, visit https://opensource.org/licenses/MIT
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <string.h>
 
 using namespace std;
 
@@ -78,6 +79,10 @@ class BetterString {
             return false;
         }
         BetterString operator-(const BetterString& s) {
+            if (index(s.str) == -1) { return BetterString(str); }
+            for (int i = 0; i < str.length(); ++i) { 
+                //TODO continue subtract
+            }
             return BetterString(); //TODO subtract
         }
         void operator-=(const BetterString& s) { 
@@ -87,11 +92,29 @@ class BetterString {
             str = s.str;
             length = str.length();
         }
-        //TODO comparisons between strings
+        bool operator<(const BetterString& s) { return str < s.str; }
+        bool operator>(const BetterString& s) { return str > s.str; }
+        bool operator<=(const BetterString& s) { return str <= s.str; }
+        bool operator>=(const BetterString& s) { return str >= s.str; }
+        BetterString operator()(unsigned int start, unsigned int stop) {
+            //TODO Splice
+            return BetterString();
+        }
+        BetterString operator()(unsigned int start) {
+            //TODO Splice
+            return BetterString();
+        }
+        BetterString operator()(unsigned int start, unsigned int stop, unsigned int step) {
+            // TODO Splice
+            return BetterString();
+        }
         //Getters
         int length(void) { return length; }
         int size(void) { return length; }
         //Methods
+        BetterString subtractAll(const BetterString& s) {
+            return BetterString(); //TODO subtract all 
+        }
         BetterString lower(void) {
             std::string copy = str;
             std::transform(copy.begin(), copy.end(), copy.begin(), 
@@ -113,8 +136,21 @@ class BetterString {
             }
             return BetterString(copy);
         }
-        int index(const BetterString& s) {
-            return -1; //TODO index
+        int index(std::string s) {
+            if (s.length() == 1) {
+                for (int i = 0; i < str.length(); ++i) {
+                    if (s[0] == str[i]) { return i; }
+                }
+            } else {
+                for (int i = 0; i < str.length() - s.length(); ++i) {
+                    std::string connected = "";
+                    for (int j = i; j < s.length(); ++j) {
+                        connected += str[j]; 
+                    }
+                    if (strcmp(connected.c_str(), s.c_str()) == 0) { return i; }
+                }
+            }
+            return -1; 
         }
         bool equalsIgnoreCase(const BetterString& s) {
             if (s.str.length() != str.length()) { return false; }
