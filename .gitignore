@@ -1,2 +1,7 @@
 # Mac
 *.DS_Store
+
+# Output
+*.dSYM
+test
+betterstring
