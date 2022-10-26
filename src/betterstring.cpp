@@ -148,12 +148,13 @@ namespace betterstrings {
                 }
                 return BetterString(copy);
             }
-            //TODO OVERRIDE OPERATOR << >> 
-            //TODO IMPLEMENT ITERATOR
+            std::string operator<<(const BetterString& s) { return s.str; }
+            BetterString operator>>(const std::string& in) { return BetterString(in); }
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
             const char* c_str(void) { return str.c_str(); }
+            std::string::iterator getIterator(void) { return str.begin(); }
             //Methods
             BetterString subtractFirst(const BetterString& s) {
                 if (index(s.str) == -1) { return BetterString(str); }
