@@ -10,6 +10,7 @@ For more information, visit https://opensource.org/licenses/MIT
 #include <cctype>
 #include <string.h>
 #include <ctype.h>
+#include <iostream>
 
 using namespace std;
 
@@ -148,13 +149,18 @@ namespace betterstrings {
                 }
                 return BetterString(copy);
             }
-            std::string operator<<(const BetterString& s) { return s.str; }
-            BetterString operator>>(const std::string& in) { return BetterString(in); }
+            friend ostream& operator<<(ostream& os, const BetterString& s) { os << s.str; return os; }
+            friend std::string operator<<(std::string s1, BetterString& s2) { std::string t = s1 + (s2.str); return t; }
+            friend const char* operator<<(const char* s1, const BetterString& s2) { 
+                std::string s1s = s1; 
+                std::string t = s1s + (s2.str);
+                return t.c_str();
+            }
+            friend istream& operator>>(istream& is, BetterString& in) { is >> in.str; return is; }
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
             const char* c_str(void) { return str.c_str(); }
-            std::string::iterator getIterator(void) { return str.begin(); }
             //Methods
             BetterString subtractFirst(const BetterString& s) {
                 if (index(s.str) == -1) { return BetterString(str); }
