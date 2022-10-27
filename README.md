@@ -1,7 +1,7 @@
 # BetterString 
 
 [![License](https://img.shields.io/github/license/RandomKiddo/BetterStrings)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.1r-blueviolet)](https://github.com/RandomKiddo/BetterStrings)
+[![Version](https://img.shields.io/badge/version-1.1rhf2-blueviolet)](https://github.com/RandomKiddo/BetterStrings/releases/tag/v1.1rhf2)
 
 ___
 
