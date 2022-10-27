@@ -2,6 +2,7 @@
 This file is licensed by the MIT License
 Copyright © 2022 RandomKiddo
 For more information, visit https://opensource.org/licenses/MIT
+Repo link: https://github.com/RandomKiddo/BetterStrings
 */
 
 #include <stdio.h>
@@ -241,6 +242,53 @@ namespace betterstrings {
                     if (one.str[i] != two.str[i]) { return false; }
                 }
                 return true;
+            }
+            //Iterator
+            struct iterator {
+                using iterator_category = std::random_access_iterator_tag;
+                using difference_type = std::ptrdiff_t;
+                using value_type = BetterString;
+                using pointer = BetterString*;
+                using reference = BetterString&;
+                private:
+                    char ptr;
+                    int index;
+                    std::string str;
+                public:
+                    iterator() {}
+                    iterator(BetterString s) { 
+                        str = s.as_str();
+                        ptr = s[0];
+                        index = 0;
+                    }
+                    iterator(BetterString s, int i) {
+                        ptr = s[i];
+                        str = s.as_str();
+                        index = i;
+                    }
+                    char operator*() const { return ptr; }
+                    char operator->() { return ptr; }
+                    iterator operator++() { 
+                        ++index;
+                        ptr = str[index];
+                        return iterator(str, index);
+                    }
+                    iterator operator++(int) { 
+                        iterator temp = *this; 
+                        ++(*this);
+                        return temp;
+                    }
+                    friend bool operator== (const iterator& a, const iterator& b) {
+                        return a.str == b.str && a.ptr == b.ptr && a.index == b.index;
+                    }
+                    friend bool operator!= (const iterator& a, const iterator& b) {
+                        return a.str != b.str || a.ptr != b.ptr || a.index == b.index; 
+                    }
+            };
+            iterator begin() { return iterator(BetterString(str), 0); }
+            iterator end() { 
+                BetterString s(str);
+                return iterator(s, s.size());
             }
     };
 };
