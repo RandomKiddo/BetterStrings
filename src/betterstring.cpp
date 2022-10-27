@@ -2,6 +2,7 @@
 This file is licensed by the MIT License
 Copyright © 2022 RandomKiddo
 For more information, visit https://opensource.org/licenses/MIT
+Repository link: https://github.com/RandomKiddo/BetterStrings
 */
 
 #include <stdio.h>
@@ -10,6 +11,7 @@ For more information, visit https://opensource.org/licenses/MIT
 #include <cctype>
 #include <string.h>
 #include <ctype.h>
+#include <iostream>
 
 using namespace std;
 
@@ -148,8 +150,14 @@ namespace betterstrings {
                 }
                 return BetterString(copy);
             }
-            //TODO OVERRIDE OPERATOR << >> 
-            //TODO IMPLEMENT ITERATOR
+            friend ostream& operator<<(ostream& os, const BetterString& s) { os << s.str; return os; }
+            friend std::string operator<<(std::string s1, BetterString& s2) { std::string t = s1 + (s2.str); return t; }
+            friend const char* operator<<(const char* s1, const BetterString& s2) { 
+                std::string s1s = s1; 
+                std::string t = s1s + (s2.str);
+                return t.c_str();
+            }
+            friend istream& operator>>(istream& is, BetterString& in) { is >> in.str; return is; }
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
@@ -234,6 +242,53 @@ namespace betterstrings {
                     if (one.str[i] != two.str[i]) { return false; }
                 }
                 return true;
+            }
+            //Iterator
+            struct iterator {
+                using iterator_category = std::random_access_iterator_tag;
+                using difference_type = std::ptrdiff_t;
+                using value_type = BetterString;
+                using pointer = BetterString*;
+                using reference = BetterString&;
+                private:
+                    char ptr;
+                    int index;
+                    std::string str;
+                public:
+                    iterator() {}
+                    iterator(BetterString s) { 
+                        str = s.as_str();
+                        ptr = s[0];
+                        index = 0;
+                    }
+                    iterator(BetterString s, int i) {
+                        ptr = s[i];
+                        str = s.as_str();
+                        index = i;
+                    }
+                    char operator*() const { return ptr; }
+                    char operator->() { return ptr; }
+                    iterator operator++() { 
+                        ++index;
+                        ptr = str[index];
+                        return iterator(str, index);
+                    }
+                    iterator operator++(int) { 
+                        iterator temp = *this; 
+                        ++(*this);
+                        return temp;
+                    }
+                    friend bool operator== (const iterator& a, const iterator& b) {
+                        return a.str == b.str && a.ptr == b.ptr && a.index == b.index;
+                    }
+                    friend bool operator!= (const iterator& a, const iterator& b) {
+                        return a.str != b.str || a.ptr != b.ptr || a.index == b.index; 
+                    }
+            };
+            iterator begin() { return iterator(BetterString(str), 0); }
+            iterator end() { 
+                BetterString s(str);
+                return iterator(s, s.size());
             }
     };
 };

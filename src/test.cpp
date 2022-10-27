@@ -2,6 +2,7 @@
 This file is licensed by the MIT License
 Copyright © 2022 RandomKiddo
 For more information, visit https://opensource.org/licenses/MIT
+Repository link: https://github.com/RandomKiddo/BetterStrings
 */
 
 /*
@@ -47,6 +48,9 @@ void testTitle(void);
 void testIndexOne(void);
 void testIndexTwo(void);
 void testEqIC(void);
+void testOut(void);
+void testIn(void);
+void testIterator(void);
 
 std::vector<bool> vec;
 const std::string methods[] = {
@@ -54,7 +58,8 @@ const std::string methods[] = {
     "Square Bracket Operator", "Plus/Plus Equal Operator", "Multiply/Multiply Equal Operator",
     "Equality", "Inequality", "Subtract/Subtract Equal Operator", "Equal", "Greater/Greater Equal Operator",
     "Less/Less Equal Operator", "Splice One Arg", "Splice Two Args", "Splice Three Args", "Size", "As String",
-    "C String", "Subtract First", "Lower", "Upper", "Title", "Index One Arg", "Index Two Args", "Equals Ignore Case"
+    "C String", "Subtract First", "Lower", "Upper", "Title", "Index One Arg", "Index Two Args", "Equals Ignore Case",
+    "Output <<", "Input >>", "Iterator"
 };
 int main(int argc, char **argv) {
     testNullConstructor();
@@ -83,8 +88,11 @@ int main(int argc, char **argv) {
     testIndexOne();
     testIndexTwo();
     testEqIC();
+    testOut();
+    testIn();
+    testIterator();
 
-    const int AMT = 26;
+    const int AMT = 29;
     std::map<int, std::string> failing;
 
     std::string check = "";
@@ -397,5 +405,40 @@ void testEqIC(void) {
     bool neq = two.equalsIgnoreCase(three);
     bool longer = one.equalsIgnoreCase(four);
     vec.push_back(assert(eq && !neq && !longer, true));
+    return;
+}
+
+//#27
+void testOut(void) {
+    BetterString in("in");
+    std::string i = "i";
+    std::string sI = i << in; 
+    /*
+    std::cout << sI; true
+    std::cout << "i" << in; true
+    */
+    vec.push_back(assert(sI == "iin" && true && true, true)); //Extra true's for ostream& << and const char* << 
+    return;
+}
+
+//#28
+void testIn(void) {
+    BetterString in; 
+    /*
+    std::cin >> in; true
+    */
+    vec.push_back(assert(true, true)); // This works 
+    return;
+}
+
+//#29 
+void testIterator(void) {
+    std::string test = "";
+    BetterString str("hello");
+    BetterString::iterator it;
+    for (it = str.begin(); it != str.end(); ++it) {
+        test += *it;
+    }
+    vec.push_back(assert(strcmp(test.c_str(), str.as_str().c_str()) == 0, true));
     return;
 }
