@@ -54,7 +54,8 @@ namespace betterstrings {
                 length = str.size(); 
             }
             BetterString operator*(unsigned int times) {
-                if (times == 0) { return BetterString(str); }
+                if (times == 0) { return BetterString(); }
+                else if (times == 1) { return BetterString(str); }
                 std::string mult = ""; 
                 for (unsigned int i = 0; i < times; ++i) {
                     mult += str;
@@ -62,7 +63,8 @@ namespace betterstrings {
                 return BetterString(mult);
             }
             void operator*=(unsigned int times) {
-                if (times == 0) { return; }
+                if (times == 0) { str = ""; return; }
+                else if (times == 1) { return; }
                 std::string mult = "";
                 for (unsigned int i = 0; i < times; ++i) {
                     mult += str;
@@ -161,7 +163,7 @@ namespace betterstrings {
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
-            const char* c_str(void) { return str.c_str(); }
+            const char* c_str(void) { return str.c_str(); } //TODO ADD TO ARRAY
             //Methods
             BetterString subtractFirst(const BetterString& s) {
                 if (index(s.str) == -1) { return BetterString(str); }
