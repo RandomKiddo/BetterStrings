@@ -2,6 +2,7 @@
 This file is licensed by the MIT License
 Copyright © 2022 RandomKiddo
 For more information, visit https://opensource.org/licenses/MIT
+Repo link: https://github.com/RandomKiddo/BetterStrings
 */
 
 /*
@@ -426,14 +427,18 @@ void testIn(void) {
     /*
     std::cin >> in; true
     */
-    vec.push_back(assert(true, true));
+    vec.push_back(assert(true, true)); // This works 
     return;
 }
 
-//#29
+//#29 
 void testIterator(void) {
     std::string test = "";
     BetterString str("hello");
-    vec.push_back(false);
+    BetterString::iterator it;
+    for (it = str.begin(); it != str.end(); ++it) {
+        test += *it;
+    }
+    vec.push_back(assert(strcmp(test.c_str(), str.as_str().c_str()) == 0, true));
     return;
 }
