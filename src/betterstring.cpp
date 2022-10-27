@@ -2,7 +2,7 @@
 This file is licensed by the MIT License
 Copyright © 2022 RandomKiddo
 For more information, visit https://opensource.org/licenses/MIT
-Repo link: https://github.com/RandomKiddo/BetterStrings
+Repository link: https://github.com/RandomKiddo/BetterStrings
 */
 
 #include <stdio.h>
