@@ -12,6 +12,7 @@ Repository link: https://github.com/RandomKiddo/BetterStrings
 #include <string.h>
 #include <ctype.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -163,7 +164,14 @@ namespace betterstrings {
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
-            const char* c_str(void) { return str.c_str(); } //TODO ADD TO ARRAY
+            const char* c_str(void) { return str.c_str(); }
+            std::vector<char> as_vector(void) {
+                std::vector<char> vec;
+                for (int i = 0; i < str.size(); ++i) {
+                    vec.push_back(str.at(i));
+                }
+                return vec;
+            }
             //Methods
             BetterString subtractFirst(const BetterString& s) {
                 if (index(s.str) == -1) { return BetterString(str); }
