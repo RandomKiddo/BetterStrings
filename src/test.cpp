@@ -51,7 +51,7 @@ void testEqIC(void);
 void testOut(void);
 void testIn(void);
 void testIterator(void);
-void testArray(void);
+void testVector(void);
 
 std::vector<bool> vec;
 const std::string methods[] = {
@@ -60,7 +60,7 @@ const std::string methods[] = {
     "Equality", "Inequality", "Subtract/Subtract Equal Operator", "Equal", "Greater/Greater Equal Operator",
     "Less/Less Equal Operator", "Splice One Arg", "Splice Two Args", "Splice Three Args", "Size", "As String",
     "C String", "Subtract First", "Lower", "Upper", "Title", "Index One Arg", "Index Two Args", "Equals Ignore Case",
-    "Output <<", "Input >>", "Iterator", "To Array"
+    "Output <<", "Input >>", "Iterator", "To Vector"
 };
 int main(int argc, char **argv) {
     testNullConstructor();
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
     testOut();
     testIn();
     testIterator();
-    testArray();
+    testVector();
 
     const int AMT = 30;
     std::map<int, std::string> failing;
@@ -185,10 +185,12 @@ void testMuAndMuEq(void) {
     test *= 4;
     bool multeq = test.as_str() == "aaaa"; 
     BetterString zero = test*0;
-    bool zerom = zero.as_str() == "aaaa";
+    bool zerom = zero.as_str() == "";
     zero *= 0;
-    bool zeromeq = zero.as_str() == "aaaa";
-    vec.push_back(assert(mult && multeq && zerom && zeromeq, true));
+    bool zeromeq = zero.as_str() == "";
+    BetterString one = test*1;
+    bool onem = one.as_str() == "aaaa";
+    vec.push_back(assert(mult && multeq && zerom && zeromeq && onem, true));
     return;
 }
 
@@ -446,12 +448,12 @@ void testIterator(void) {
 }
 
 //#30
-void testArray(void) {
+void testVector(void) {
     bool tracker = true;
     BetterString test("hello world");
-    char* arr = test.as_array();
+    std::vector<char> vec = test.as_vector();
     for (int i = 0; i < test.size(); ++i) {
-        if (test[i] == arr[i]) { tracker = false; }
+        if (vec.at(i) == test[i]) { tracker = false; }
     }
     vec.push_back(assert(tracker, true));
     return;

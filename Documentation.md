@@ -291,6 +291,15 @@ BetterString str("hi");
 str.c_str(); //"hi" as C-string
 ```
 
+<br>
+
+`std::vector<char> as_vector(void)`
+<sub>Returns this better string as a vector of chars</sub>
+```cpp
+BetterString str("hi");
+str.as_vector(); //vector <'h', 'i'>
+```
+
 [Back](#table-of-contents)
 
 ___
