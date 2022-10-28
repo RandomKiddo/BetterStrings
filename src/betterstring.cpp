@@ -163,7 +163,14 @@ namespace betterstrings {
             //Getters
             int size(void) { return length; }
             std::string as_str(void) { return str; }
-            const char* c_str(void) { return str.c_str(); } //TODO ADD TO ARRAY
+            const char* c_str(void) { return str.c_str(); }
+            char* as_array(void) {
+                char arr[str.size()];
+                for (int i = 0; i < str.size(); ++i) {
+                    arr[i] = str.at(i);
+                }
+                return arr;
+            }
             //Methods
             BetterString subtractFirst(const BetterString& s) {
                 if (index(s.str) == -1) { return BetterString(str); }
